@@ -1,0 +1,240 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+	int info;
+	struct node *next;
+};
+void create(struct node **,int);
+void traverse(struct node *);
+void  insert_first(struct node **,int);
+void  insert_last(struct node **,int);
+void delete_first(struct node **);
+void delete_last(struct node **);
+int count(struct node *);
+void delete_element(struct node **,int);
+void insert_spec(struct node **,int,int);
+int main()
+{
+	struct node *head=NULL;
+	int n,ch,item,key,pos;
+	while(1)
+	{
+		printf("\n1.create\n2.traverse\n3.insert_first\n4.insert_last\n5.count\n6.delete_first\n7.delete_last\n8.delete_element\n9.insert_spec\n0.exit\n\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1: printf("enter no of nodes:");
+					scanf("%d",&n);
+					create(&head,n);
+					break;
+			case 2: traverse(head);
+					break;
+			case 3: printf("enter item to be inserted:");
+					scanf("%d",&item);
+					insert_first(&head,item);
+					break;
+			case 4: printf("enter item to be inserted:");
+					scanf("%d",&item);
+					insert_last(&head,item);
+					break;
+			case 5: printf("no of elements in the list:%d",count(head));
+					break;
+			case 6: delete_first(&head);
+					break;
+			case 7: delete_last(&head);
+					break;
+			case 8: printf("deleted element:");
+					scanf("%d",&key);
+					delete_element(&head,key);
+					break;
+			case 9: printf("enter item and pos:");
+					scanf("%d%d",&item,&pos);
+					insert_spec(&head,item,pos);
+					break;
+			case 0: exit(0);
+		}
+	}
+}
+void create(struct node **head,int n)
+{
+	int item,i;
+	struct node *newnode,*temp;
+	if(*head!=NULL)
+	{
+		printf("already created");
+		return;
+		
+	}
+	printf("enter %d no of elements:",n);
+	for(i=1;i<=n;i++)
+	{
+		scanf("%d",&item);
+		newnode=(struct node*)malloc(sizeof(struct node));
+		newnode->info=item;
+		newnode->next=NULL;
+		if(*head==NULL)
+				*head=newnode;
+		else
+				temp->next=newnode;
+		temp=newnode;		
+	}
+}
+void traverse(struct node *head)
+{
+	struct node *loc;
+	loc=head;
+	while(loc!=NULL)
+	{
+		printf("%d->",loc->info);
+		loc=loc->next;
+	}
+}
+void insert_first(struct node **head,int item)
+{
+	struct node *newnode;
+	newnode=(struct node*)malloc(sizeof(struct node));
+	newnode->info=item;
+	newnode->next=*head;
+	*head=newnode;
+}
+void insert_last(struct node **head,int item)
+{
+	struct node *newnode;
+	struct node *loc;
+	loc=*head;
+	newnode=(struct node*)malloc(sizeof(struct node));
+	newnode->info=item;
+	newnode->next=NULL;
+	if(loc==NULL)
+		newnode=*head;
+	else
+	{
+		while(loc->next!=NULL)
+		{
+			loc=loc->next;
+			
+		}
+		loc->next=newnode;
+	}
+}
+int count(struct node *head)
+{
+	int cnt;
+	struct node *loc;
+	loc=head;
+	cnt=0;
+	while(loc!=NULL)
+	{
+		cnt=cnt+1;
+		loc=loc->next;
+	}
+	return(cnt);
+}
+void delete_first(struct node **head)
+{
+	struct node *temp;
+	if(*head==NULL)
+	{
+		printf("empty list");
+		return;
+	}
+	temp=*head;
+	(*head)=(*head)->next;
+	printf("deleted item:%d",temp->info);
+	temp->next=NULL;
+	free(temp);
+}
+void delete_last(struct node **head)
+{
+	struct node *loc,*locp;
+	if(*head==NULL)
+	{
+		printf("empty list");
+		return;
+	}
+	loc=*head;
+	while(loc->next!=NULL)
+	{
+		locp=loc;
+		loc=loc->next;
+		
+	}
+	if(loc==*head)
+	{
+		*head=NULL;
+		
+	}
+	else
+	{
+		locp->next=NULL;
+	}
+	printf("deleted item:%d",loc->info);
+	free(loc);
+}
+void delete_element(struct node **head,int key)
+{
+	struct node*loc,*locp;
+	if(head==NULL)
+	{
+		printf("empty list");
+		return;
+	}
+	loc=*head;
+	while(loc!=NULL && loc->info!=key)
+	{
+		locp=loc;
+		loc=loc->next;
+	}
+	if(loc==NULL)
+	{
+		printf("node to be deleted not found");
+		return;
+	}
+	if(loc==*head)
+	{
+		(*head)=loc->next;
+		
+	}
+	else
+	{
+		locp->next=loc->next;
+	}
+	loc->next=NULL;
+	free(loc);
+	return;
+}
+void insert_spec(struct node **head,int item,int pos)
+{
+	int nodecount;
+	struct node *newnode,*loc;
+	if(*head==NULL)
+	{
+		printf("empty list");
+		return;
+	}
+	loc=*head;
+	nodecount=1;
+	while(loc!=NULL &&pos-1>nodecount)
+	{
+		nodecount=nodecount+1;
+		loc=loc->next;
+	}
+	if(loc==NULL || pos<=0)
+	{
+		printf("position given is not valid");
+		return;
+	}
+	newnode=(struct node*)malloc(sizeof(struct node));
+	newnode->info=item;
+	if(pos==1)
+	{
+		newnode->next=(*head);
+		(*head)=newnode;
+	}
+	else
+	{
+		newnode->next=loc->next;
+		loc->next=newnode;
+	}
+	return;
+}

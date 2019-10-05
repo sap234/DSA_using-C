@@ -1,0 +1,79 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct queue{
+	struct queue*next;
+	int info;
+};
+void enqueue(struct queue**,struct queue**, int);
+int dequeue(struct queue**,struct queue**);
+void traverse(struct queue*);
+void main()
+{
+	int ch,item,n;
+	struct queue *front=NULL;
+	struct queue*rear=NULL;
+	while(1)
+	{
+		printf("\n1.enqueue\n2.dequeue\n3.traverse\n0.exit\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1: printf("enter element:");
+					scanf("%d",&item);
+					enqueue(&front,&rear,item);
+					break;
+			case 2: item=dequeue(&front,&rear);
+					if(item!=-9999)
+						printf("\ndeleted element=%d\n",item);
+					break;
+			case 3: traverse(front);
+					break;
+			case 0: exit(0);
+		}
+	}
+	
+}
+void enqueue(struct queue**front,struct queue**rear,int item)
+{
+	struct queue*newnode;
+	newnode=(struct queue*)malloc(sizeof(struct queue));
+	newnode->info=item;
+	newnode->next=NULL;
+	if(*front==NULL)
+	{
+		*front=newnode;
+	}
+	else
+		(*rear)->next=newnode;
+	*rear=newnode;
+	return;	
+}
+int dequeue(struct queue**front,struct queue**rear)
+{
+
+	int item;
+	struct queue*temp;
+	if(*front==NULL && *rear==NULL)
+	{
+		printf("underflow");
+		return(-9999);
+		
+	}
+	item = (*front)->info;
+	temp=*front;
+	*front =temp->next;
+	temp->next=NULL;
+	if(temp==*rear)
+		*rear=NULL;
+	free(temp);
+	return(item);
+}
+void traverse(struct queue*front)
+{
+	struct queue*temp=front;
+	while(temp!=NULL)
+	{
+		printf("%d->",temp->info);
+		temp=temp->next;
+	}
+}

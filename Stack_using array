@@ -1,0 +1,90 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define STACKSIZE 10
+struct stk{
+	int a[STACKSIZE];
+	int top;
+};
+int isempty(struct stk*);
+int isfull(struct stk*);
+void push(struct stk*,int);
+int pop(struct stk*);
+int top(struct stk*);
+void main()
+{
+	struct stk s;
+	struct stk*ps=&s;
+	int ch,item;
+	ps->top=-1;
+	while(1)
+	{
+		printf("\n1.push\n2.pop\n3.top\n0.exit\n\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1: printf("enter element:");
+					scanf("%d",&item);
+					push(ps,item);
+					break;
+			case 2: item=pop(ps);
+					if(item!=-9999)
+						printf("popped element:%d",item);
+					break;
+			case 3: item=top(ps);
+					if(item!=-9999)
+						printf("top element:%d",top);
+					break;
+			case 0: exit(0);
+			
+		}
+	}
+}
+int isempty(struct stk*ps)
+{
+	if(ps->top==-1)
+		return 1;
+	else
+		return 0;
+		
+}
+int isfull(struct stk*ps)
+{
+	if(ps->top==STACKSIZE-1)
+		return 1;
+	else 
+		return 0;
+}
+void push(struct stk*ps,int item)
+{
+	if(isfull(ps))
+		printf("overflow");
+	else
+	{
+		ps->top=ps->top+1;
+		ps->a[ps->top]=item;
+	}
+	return;
+}
+int pop(struct stk*ps)
+{
+	int item;
+	if(isempty(ps))
+	{
+		printf("underflow");
+		return(-9999);
+	}
+	item=ps->a[ps->top];
+	ps->top=ps->top-1;
+	return(item);
+}
+int top(struct stk*ps)
+{
+	if(isempty(ps))
+	{
+		printf("underflow");
+		return(-9999);
+		
+	}
+	else
+		return(ps->a[ps->top]);
+}

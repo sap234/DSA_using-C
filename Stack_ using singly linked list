@@ -1,0 +1,95 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct stk{
+	struct stk*next;
+	int info;
+};
+int isempty(struct stk*);
+int isfull(struct stk*);
+void push(struct stk**,int);
+int pop(struct stk**);
+int Top(struct stk*);
+void traverse(struct stk*);
+void main()
+{
+	struct stk*top=NULL;
+	int ch,item;
+	while(1)
+	{
+		printf("\n1.push\n2.pop\n3.top\n4.traverse\n0.exit\n\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1: printf("enter element:");
+					scanf("%d",&item);
+					push(&top,item);
+					break;
+			case 2: item=pop(&top);
+					if(item!=-9999)
+						printf("popped element:%d",item);
+					break;
+			case 3: item=Top(top);
+					if(item!=-9999)
+						printf("top element:%d",item);
+					break;
+			case 4: traverse(top);
+					break;
+			case 0: exit(0);
+			
+		}
+	}
+}
+int isempty(struct stk*top)
+{
+	if(top==NULL)
+		return 1;
+	else
+		return 0;
+		
+}
+
+void push(struct stk**top,int item)
+{
+	struct stk*newnode;
+	newnode=(struct stk*)malloc(sizeof(struct stk));
+	newnode->info=item;
+	newnode->next=*top;
+	*top=newnode;
+	return;
+}
+int pop(struct stk**top)
+{
+	struct stk*temp;
+	int item;
+	if(isempty(*top))
+	{
+		printf("underflow");
+		return(-9999);
+	}
+	item=(*top)->info;
+	temp=*top;
+	*top=temp->next;
+	temp->next=NULL;
+	free(temp);
+	return(item);
+}
+int Top(struct stk*top)
+{
+	if(isempty(top))
+	{
+		printf("underflow");
+		return(-9999);
+		
+	}
+	else
+		return(top->info);
+}
+void traverse(struct stk*top)
+{
+	struct stk*temp=top;
+	while(temp!=NULL)
+	{
+		printf("%d->",temp->info);
+		temp=temp->next;
+	}
+}
